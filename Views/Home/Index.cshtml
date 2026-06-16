@@ -1,0 +1,273 @@
+@model KT_LTWEB.Models.ViewModels.CourseListViewModel
+@{
+    ViewData["Title"] = "Trang chủ - Đăng ký học phần";
+}
+
+<div class="container py-4">
+    <!-- TempData Alerts -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 12px; background: rgba(25, 135, 84, 0.1); color: #198754;">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 12px; background: rgba(220, 53, 69, 0.1); color: #dc3545;">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Hero Section -->
+    <div class="p-5 mb-5 text-center text-white shadow-lg position-relative overflow-hidden" 
+         style="border-radius: 24px; background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);">
+        <div class="position-relative z-index-1">
+            <h1 class="display-5 fw-bold mb-2">Hệ Thống Đăng Ký Học Phần</h1>
+            <p class="lead mb-4 opacity-90">Tìm kiếm và đăng ký các học phần của bạn một cách nhanh chóng và dễ dàng.</p>
+            
+            <!-- Search Bar -->
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <form method="get" asp-action="Index" asp-controller="Home">
+                        <div class="input-group p-1 bg-white shadow-sm" style="border-radius: 50px;">
+                            <input type="text" name="search" value="@Model.SearchKeyword" 
+                                   class="form-control border-0 px-4" 
+                                   placeholder="Tìm kiếm tên học phần..." 
+                                   style="border-radius: 50px 0 0 50px; focus: none; box-shadow: none;" />
+                            <button type="submit" class="btn btn-primary px-4 fw-medium" 
+                                    style="border-radius: 50px; background: #4f46e5; border: none;">
+                                <i class="bi bi-search me-1"></i> Tìm kiếm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative abstract shapes -->
+        <div class="position-absolute" style="width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; top: -100px; right: -50px;"></div>
+        <div class="position-absolute" style="width: 180px; height: 180px; background: rgba(255,255,255,0.08); border-radius: 50%; bottom: -50px; left: -30px;"></div>
+    </div>
+
+    <!-- Course Catalog -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h3 fw-bold text-dark mb-0">Danh Sách Học Phần</h2>
+            @if (!string.IsNullOrEmpty(Model.SearchKeyword))
+            {
+                <small class="text-muted">Kết quả tìm kiếm cho: "<strong>@Model.SearchKeyword</strong>"</small>
+            }
+        </div>
+        <span class="badge bg-secondary px-3 py-2 fs-6 rounded-pill" style="background-color: #6366f1 !important;">
+            @Model.Courses.Count học phần
+        </span>
+    </div>
+
+    @if (!Model.Courses.Any())
+    {
+        <div class="text-center py-5 my-4 bg-light rounded-4 shadow-sm">
+            <i class="bi bi-journal-x display-1 text-muted mb-3"></i>
+            <h4 class="text-muted">Không tìm thấy học phần nào</h4>
+            <p class="text-secondary">Vui lòng thử tìm kiếm với từ khóa khác.</p>
+            <a asp-action="Index" class="btn btn-outline-primary rounded-pill mt-2">Xem tất cả</a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var course in Model.Courses)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm course-card overflow-hidden" 
+                         style="border-radius: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+                        
+                        <!-- Course Image / Gradient Placeholder -->
+                        <div class="position-relative overflow-hidden" style="height: 180px;">
+                            @if (!string.IsNullOrEmpty(course.Image))
+                            {
+                                <img src="@course.Image" class="w-100 h-100 object-fit-cover" alt="@course.Name" 
+                                     onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');" />
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold text-center px-3 d-none" 
+                                     style="background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%)">
+                                    @course.Name
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold text-center px-3" 
+                                     style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);">
+                                    @course.Name
+                                </div>
+                            }
+                            
+                            <!-- Category Badge -->
+                            <span class="position-absolute top-3 start-3 badge bg-white text-dark shadow-sm px-3 py-2 font-semibold" 
+                                  style="border-radius: 30px; font-size: 0.75rem; top: 12px; left: 12px;">
+                                @(course.Category?.Name ?? "General")
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold text-dark mb-3 text-truncate-2" style="font-size: 1.15rem; min-height: 54px;">
+                                @course.Name
+                            </h5>
+                            
+                            <div class="mb-4 text-secondary" style="font-size: 0.9rem;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-bookmark-star text-primary me-2"></i>
+                                    <span>Tín chỉ: <strong class="text-dark">@course.Credits tín chỉ</strong></span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-person text-primary me-2"></i>
+                                    <span>Giảng viên: <strong class="text-dark">@course.Lecturer</strong></span>
+                                </div>
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(course.Description))
+                            {
+                                <p class="card-text text-muted text-truncate-3 mb-4" style="font-size: 0.85rem; height: 50px;">
+                                    @course.Description
+                                </p>
+                            }
+
+                            <!-- Card Footer Action -->
+                            <div class="mt-auto pt-3 border-top border-light">
+                                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                                {
+                                    @if (User.IsInRole("STUDENT") || User.IsInRole("Student"))
+                                    {
+                                        if (Model.EnrolledCourseIds.Contains(course.Id))
+                                        {
+                                            <form asp-controller="Enroll" asp-action="Cancel" method="post">
+                                                <input type="hidden" name="courseId" value="@course.Id" />
+                                                <button type="submit" class="btn btn-danger w-100 rounded-pill py-2 fw-medium shadow-sm-hover">
+                                                    <i class="bi bi-x-circle me-1"></i> Hủy đăng ký
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="Enroll" asp-action="Enroll" method="post">
+                                                <input type="hidden" name="courseId" value="@course.Id" />
+                                                <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-medium shadow-sm-hover" 
+                                                        style="background: #10b981; border: none;">
+                                                    <i class="bi bi-plus-circle me-1"></i> Đăng ký học (Enroll)
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else if (User.IsInRole("ADMIN") || User.IsInRole("Admin"))
+                                    {
+                                        <div class="d-flex gap-2">
+                                            <a asp-controller="AdminCourses" asp-action="Edit" asp-route-id="@course.Id" 
+                                               class="btn btn-outline-primary w-50 rounded-pill py-2 fw-medium">
+                                                <i class="bi bi-pencil-square"></i> Sửa
+                                            </a>
+                                            <a asp-controller="AdminCourses" asp-action="Details" asp-route-id="@course.Id" 
+                                               class="btn btn-light w-50 rounded-pill py-2 fw-medium text-dark">
+                                                Chi tiết
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="Login"
+                                       class="btn btn-outline-primary w-100 rounded-pill py-2 fw-medium">
+                                        Đăng nhập để đăng ký
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination Controls -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center gap-1">
+                    <!-- First & Previous Page -->
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link border-0 rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
+                           asp-action="Index" 
+                           asp-route-page="1" 
+                           asp-route-search="@Model.SearchKeyword" 
+                           style="width: 40px; height: 40px; color: #4f46e5;">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link border-0 rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
+                           asp-action="Index" 
+                           asp-route-page="@(Model.CurrentPage - 1)" 
+                           asp-route-search="@Model.SearchKeyword" 
+                           style="width: 40px; height: 40px; color: #4f46e5;">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link border-0 rounded-circle d-flex align-items-center justify-content-center shadow-sm fw-medium" 
+                               asp-action="Index" 
+                               asp-route-page="@i" 
+                               asp-route-search="@Model.SearchKeyword" 
+                               style="width: 40px; height: 40px; @(Model.CurrentPage == i ? "background: #4f46e5; color: white;" : "color: #4f46e5; background: white;")">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Next & Last Page -->
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link border-0 rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
+                           asp-action="Index" 
+                           asp-route-page="@(Model.CurrentPage + 1)" 
+                           asp-route-search="@Model.SearchKeyword" 
+                           style="width: 40px; height: 40px; color: #4f46e5;">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link border-0 rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
+                           asp-action="Index" 
+                           asp-route-page="@Model.TotalPages" 
+                           asp-route-search="@Model.SearchKeyword" 
+                           style="width: 40px; height: 40px; color: #4f46e5;">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>
+
+<style>
+    .course-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.12) !important;
+    }
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+    .text-truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+    .shadow-sm-hover:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    }
+</style>

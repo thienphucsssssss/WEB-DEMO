@@ -1,0 +1,84 @@
+@model KT_LTWEB.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="row justify-content-center align-items-center py-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="card-header border-0 text-center text-white py-4"
+                 style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); border-radius: 20px 20px 0 0;">
+                <h3 class="fw-bold mb-1">Đăng Ký</h3>
+                <p class="mb-0 opacity-80" style="font-size: 0.9rem;">Tạo tài khoản mới để bắt đầu đăng ký học phần</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="font-size: 0.9rem;"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label fw-medium text-secondary"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input asp-for="Username" class="form-control bg-light border-start-0 px-3"
+                                   placeholder="Nhập tên tài khoản" style="border-radius: 0 10px 10px 0; height: 48px;" />
+                        </div>
+                        <span asp-validation-for="Username" class="text-danger" style="font-size: 0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-medium text-secondary"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input asp-for="Email" class="form-control bg-light border-start-0 px-3"
+                                   placeholder="student@example.com" style="border-radius: 0 10px 10px 0; height: 48px;" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger" style="font-size: 0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-medium text-secondary"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input asp-for="Password" type="password" class="form-control bg-light border-start-0 px-3"
+                                   placeholder="Tối thiểu 6 ký tự" style="border-radius: 0 10px 10px 0; height: 48px;" />
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger" style="font-size: 0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ConfirmPassword" class="form-label fw-medium text-secondary"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-shield-lock"></i>
+                            </span>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control bg-light border-start-0 px-3"
+                                   placeholder="Nhập lại mật khẩu" style="border-radius: 0 10px 10px 0; height: 48px;" />
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger" style="font-size: 0.8rem;"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mb-3 shadow"
+                            style="border-radius: 10px; height: 48px; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border: none;">
+                        Đăng Ký
+                    </button>
+
+                    <div class="text-center text-secondary mt-3" style="font-size: 0.9rem;">
+                        <span>Đã có tài khoản? </span>
+                        <a asp-action="Login" class="fw-bold text-decoration-none" style="color: #4f46e5;">Đăng nhập ngay</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,92 @@
+@model KT_LTWEB.Models.Course
+@{
+    ViewData["Title"] = "Thêm học phần mới - Admin";
+}
+
+<div class="row justify-content-center py-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <!-- Header -->
+            <div class="card-header border-0 text-white py-4" 
+                 style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);">
+                <div class="d-flex align-items-center">
+                    <a asp-action="Index" class="btn btn-sm btn-link text-white text-decoration-none me-3">
+                        <i class="bi bi-arrow-left fs-4"></i>
+                    </a>
+                    <div>
+                        <h3 class="fw-bold mb-1">Thêm Học Phần</h3>
+                        <p class="mb-0 opacity-80" style="font-size: 0.9rem;">Điền đầy đủ thông tin bên dưới để tạo học phần mới</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <!-- Course Name -->
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="Name" class="form-label fw-bold text-dark">Tên học phần</label>
+                            <input asp-for="Name" class="form-control" placeholder="Ví dụ: Lập trình Web ASP.NET Core" style="height: 45px; border-radius: 8px;" />
+                            <span asp-validation-for="Name" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+
+                        <!-- Credits -->
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Credits" class="form-label fw-bold text-dark">Số tín chỉ</label>
+                            <input asp-for="Credits" type="number" class="form-control" placeholder="Từ 1 đến 10" style="height: 45px; border-radius: 8px;" />
+                            <span asp-validation-for="Credits" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-bold text-dark">Danh mục học phần</label>
+                            <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId" style="height: 45px; border-radius: 8px;">
+                                <option value="">-- Chọn danh mục --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+
+                        <!-- Lecturer -->
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Lecturer" class="form-label fw-bold text-dark">Giảng viên phụ trách</label>
+                            <input asp-for="Lecturer" class="form-control" placeholder="Tên giảng viên" style="height: 45px; border-radius: 8px;" />
+                            <span asp-validation-for="Lecturer" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold text-dark">Hình ảnh minh họa</label>
+                            <input type="file" name="imageFile" class="form-control" style="height: 45px; border-radius: 8px;" accept="image/*" />
+                            <small class="text-muted">Định dạng hỗ trợ: png, jpg, jpeg, webp. Tối đa 2MB.</small>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-md-12 mb-4">
+                            <label asp-for="Description" class="form-label fw-bold text-dark">Mô tả học phần</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Nhập mô tả tóm tắt nội dung học phần..." style="border-radius: 8px;"></textarea>
+                            <span asp-validation-for="Description" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                        <a asp-action="Index" class="btn btn-light px-4 py-2 rounded-pill fw-medium text-dark">
+                            Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold" 
+                                style="background: #4f46e5; border: none;">
+                            Tạo Học Phần
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

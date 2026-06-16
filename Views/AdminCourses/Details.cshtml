@@ -1,0 +1,107 @@
+@model KT_LTWEB.Models.Course
+@{
+    ViewData["Title"] = "Chi tiết học phần - Admin";
+}
+
+<div class="row justify-content-center py-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-header border-0 text-white py-4"
+                 style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);">
+                <div class="d-flex align-items-center">
+                    <a asp-action="Index" class="btn btn-sm btn-link text-white text-decoration-none me-3">
+                        <i class="bi bi-arrow-left fs-4"></i>
+                    </a>
+                    <div>
+                        <h3 class="fw-bold mb-1">Chi Tiết Học Phần</h3>
+                        <p class="mb-0 opacity-80" style="font-size: 0.9rem;">Thông tin chi tiết về học phần ID: @Model.Id</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="overflow-hidden border rounded shadow-sm w-100" style="height: 180px;">
+                            @if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img src="@Model.Image" class="w-100 h-100 object-fit-cover" alt="@Model.Name"
+                                     onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');" />
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold bg-secondary d-none">
+                                    Không có ảnh
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold bg-secondary">
+                                    Không có ảnh
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4 class="fw-bold text-dark mb-3">@Model.Name</h4>
+                        <div class="row g-3 text-secondary" style="font-size: 0.95rem;">
+                            <div class="col-sm-4 fw-bold">Danh mục:</div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-light text-dark px-3 py-1.5 border" style="border-radius: 6px;">
+                                    @(Model.Category?.Name ?? "General")
+                                </span>
+                            </div>
+
+                            <div class="col-sm-4 fw-bold">Số tín chỉ:</div>
+                            <div class="col-sm-8"><span class="fw-bold text-dark">@Model.Credits</span> tín chỉ</div>
+
+                            <div class="col-sm-4 fw-bold">Giảng viên:</div>
+                            <div class="col-sm-8 text-dark fw-medium">@Model.Lecturer</div>
+
+                            <div class="col-sm-4 fw-bold">Trạng thái mở:</div>
+                            <div class="col-sm-8">
+                                @if (Model.IsActive)
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5" style="border-radius: 30px;">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Đang hoạt động (Mở đăng ký)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1.5" style="border-radius: 30px;">
+                                        <i class="bi bi-eye-slash-fill me-1"></i> Đã đóng/ẩn đăng ký
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 border-top pt-4 mt-4">
+                        <h5 class="fw-bold text-dark mb-2">Mô tả học phần</h5>
+                        <p class="text-secondary leading-relaxed bg-light p-4 rounded-4" style="min-height: 100px;">
+                            @(string.IsNullOrEmpty(Model.Description) ? "Không có mô tả chi tiết cho học phần này." : Model.Description)
+                        </p>
+                    </div>
+
+                    <div class="col-md-12 text-muted mt-3" style="font-size: 0.85rem;">
+                        <div class="d-flex justify-content-between">
+                            <span>Ngày tạo: @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                            @if (Model.UpdatedAt != null)
+                            {
+                                <span>Cập nhật lần cuối: @Model.UpdatedAt?.ToString("dd/MM/yyyy HH:mm")</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 pt-4 border-top mt-4">
+                    <a asp-action="Index" class="btn btn-light px-4 py-2 rounded-pill fw-medium text-dark">
+                        Quay lại
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary px-4 py-2 rounded-pill fw-bold"
+                       style="background: #4f46e5; border: none;">
+                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Từ chối truy cập";
+}
+
+<div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg p-5" style="border-radius: 20px;">
+                <div class="mb-4 text-danger">
+                    <i class="bi bi-shield-slash display-1"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-3">Từ Chối Truy Cập</h2>
+                <p class="text-secondary mb-4 leading-relaxed">
+                    Bạn không có quyền truy cập vào trang này. Khu vực này được giới hạn hoặc yêu cầu vai trò cao hơn (ví dụ: vai trò Admin).
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4 py-2 rounded-pill fw-medium" 
+                       style="background: #4f46e5; border: none;">
+                        Về Trang Chủ
+                    </a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-medium">
+                        Đăng Nhập Tài Khoản Khác
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
